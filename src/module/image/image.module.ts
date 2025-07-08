@@ -11,14 +11,14 @@ import { ImageController } from './infas/image.transport';
   controllers: [ImageController],
   imports: [
     CoreModule,
-    MongooseModule.forRoot('mongodb://localhost:27017/ecommerce'),
+    MongooseModule.forRoot(process.env.MONGODB_URL ?? 'mongodb://localhost:27017/ecommerce'),
     MongooseModule.forFeature([{ name: 'Image', schema: ImageSchema }]),
     ClientsModule.register([
       {
         name: CLIENTS.Search_Client,
         transport: Transport.RMQ,
         options: {
-          urls: ['amqp://vtonomy:123456@localhost:5672'],
+          urls: [process.env.RABBITMQ_URL ?? 'amqp://vtonomy:123456@localhost:5672'],
           queue: 'search_queue',
           queueOptions: {
             durable: false,
