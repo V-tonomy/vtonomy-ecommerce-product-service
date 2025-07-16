@@ -21,7 +21,7 @@ import { CategoryController } from './infas/category.transport';
           urls: [process.env.RABBITMQ_URL ?? 'amqp://vtonomy:123456@localhost:5672'],
           queue: 'search_queue',
           queueOptions: {
-            durable: false,
+            durable: true,
           },
         },
       },
