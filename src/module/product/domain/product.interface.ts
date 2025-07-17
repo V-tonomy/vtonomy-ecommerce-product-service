@@ -1,5 +1,5 @@
 import { IImage } from 'src/domain';
-import { IRepository } from 'vtonomy/dist/interface';
+import { IRepository } from 'vtonomy';
 
 export interface IProduct {
   id: string;
