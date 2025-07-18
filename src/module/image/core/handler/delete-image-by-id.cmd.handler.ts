@@ -12,16 +12,15 @@ export class DeleteImageByIdHandler
   constructor(
     @Inject('IImageRepository')
     private readonly imageRepository: ImageRepository,
-    @Inject(CLIENTS.Search_Client) private readonly client: ClientProxy,
+    @Inject(CLIENTS.Search_Client) private readonly searchClient: ClientProxy,
   ) {}
   async execute(command: DeleteImageByIdCommand): Promise<void> {
     const id = command.id;
 
     try {
       await this.imageRepository.deleteById(id);
-      this.client.send(Image_Deleted, { id }).subscribe();
+      this.searchClient.send(Image_Deleted, { id }).subscribe();
     } catch (error) {
-      console.log('aaaa', { error });
       throw new InternalServerErrorException(error);
     }
   }

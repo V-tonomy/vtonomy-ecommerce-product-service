@@ -1,14 +1,17 @@
 import {
-  Body,
   Controller,
   Post,
   UploadedFiles,
-  UseInterceptors
+  UseInterceptors,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { FilesInterceptor } from '@nestjs/platform-express';
+import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
+import { ResponseDTO } from 'vtonomy';
+import { CreateImageCommand } from '../core/command';
 
+@ApiTags('Image')
 @Controller('image')
 export class ImageController {
   constructor(
@@ -16,27 +19,22 @@ export class ImageController {
     private queryBus: QueryBus,
   ) {}
 
-  // @Post('/')
-  // async insert(@Body() body: CreateImageDTO) {
-  //   const id = await this.commandBus.execute(CreateImageCommand.create(body));
-  //   return new ResponseDTO(id);
-  // }
-
-  // @Patch(':id')
-  // async update(@Param('id') id: string, @Body() updateData: UpdateImageDTO) {
-  //   await this.commandBus.execute(
-  //     UpdateImageByIdCommand.create(id, updateData),
-  //   );
-  //   return new MessageResponseDTO(`Update image with id: ${id} success`);
-  // }
-
-  // @Delete(':id')
-  // async deleteById(@Param('id') id: string) {
-  //   await this.commandBus.execute(DeleteImageByIdCommand.create(id));
-  //   return new MessageResponseDTO(`Delete image with id: ${id} success`);
-  // }
-
-  @Post('upload')
+  @Post('/upload')
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        images: {
+          type: 'array',
+          items: {
+            type: 'string',
+            format: 'binary',
+          },
+        },
+      },
+    },
+  })
   @UseInterceptors(
     FilesInterceptor('images', 10, {
       storage: diskStorage({
@@ -47,15 +45,14 @@ export class ImageController {
       }),
     }),
   )
-  uploadImages(
-    @UploadedFiles() files: Express.Multer.File[],
-    @Body() body: any,
-  ) {
-    const urls = files.map((file) => `/uploads/${file.filename}`);
-    return {
-      message: 'Uploaded',
-      images: urls,
-      ...body,
+  async upload(@UploadedFiles() files: Express.Multer.File[]) {
+    const dto = {
+      files: files.map((file) => ({
+        url: `/uploads/${file.filename}`,
+      })),
     };
+    await this.commandBus.execute(CreateImageCommand.create(dto));
+
+    return new ResponseDTO(dto);
   }
 }

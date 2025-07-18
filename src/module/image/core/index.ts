@@ -1,9 +1,4 @@
-import {
-  DeleteImageByIdHandler,
-  UpdateImageByIdHandler,
-} from './handler';
+import { DeleteImageByIdHandler } from './handler';
+import { CreateImageHandler } from './handler/create-image.cmd.handler';
 
-export const IMAGE_HANDLER = [
-  UpdateImageByIdHandler,
-  DeleteImageByIdHandler,
-];
+export const IMAGE_HANDLER = [DeleteImageByIdHandler, CreateImageHandler];

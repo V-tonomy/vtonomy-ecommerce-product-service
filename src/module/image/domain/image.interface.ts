@@ -1,9 +1,10 @@
-import { IRepository } from "vtonomy";
+import { IRepository } from 'vtonomy';
 
 export interface IImage {
   id: string;
   url: string;
-  alt: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface IImagePersistant {}

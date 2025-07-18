@@ -9,7 +9,10 @@ export class ImageMongo {
   url: string;
 
   @Prop()
-  alt: string;
+  createdAt: Date;
+
+  @Prop()
+  updatedAt: Date;
 }
 
 export type ImageMongoDocument = ImageMongo & Document;

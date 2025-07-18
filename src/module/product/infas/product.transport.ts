@@ -4,13 +4,10 @@ import {
   Delete,
   Param,
   Patch,
-  Post,
-  UploadedFiles,
-  UseInterceptors,
+  Post
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { FilesInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { MessageResponseDTO, ResponseDTO } from 'vtonomy';
 import {
   CreateProductCommand,
@@ -19,6 +16,7 @@ import {
 } from '../core/command';
 import { CreateProductDTO, UpdateProductDTO } from '../core/dto/product.dto';
 
+@ApiTags('Product')
 @Controller('product')
 export class ProductController {
   constructor(
@@ -27,26 +25,9 @@ export class ProductController {
   ) {}
 
   @Post('/')
-  @Post('upload')
-  @UseInterceptors(
-    FilesInterceptor('images', 10, {
-      storage: diskStorage({
-        destination: './uploads',
-        filename: (req, file, cb) => {
-          cb(null, Date.now() + '-' + file.originalname);
-        },
-      }),
-    }),
-  )
-  async insert(
-    @UploadedFiles() files: Express.Multer.File[],
-    @Body() body: CreateProductDTO,
-  ) {
-    const images = files.map((file) => ({ url: `/uploads/${file.filename}` }));
-
-    const id = await this.commandBus.execute(
-      CreateProductCommand.create({ ...body, images }),
-    );
+  @ApiResponse({ status: 201, description: 'Tạo thành công' })
+  async insert(@Body() body: CreateProductDTO) {
+    const id = await this.commandBus.execute(CreateProductCommand.create(body));
     return new ResponseDTO(id);
   }
 
