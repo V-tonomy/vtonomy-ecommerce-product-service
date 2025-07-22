@@ -12,7 +12,8 @@ export class CreateDiscountHandler
   implements ICommandHandler<CreateDiscountCommand>
 {
   constructor(
-    @Inject('IDiscountRepository') private readonly discountRepository: IDiscountRepository,
+    @Inject('IDiscountRepository')
+    private readonly discountRepository: IDiscountRepository,
     @Inject(CLIENTS.Search_Client) private readonly client: ClientProxy,
   ) {}
 
@@ -36,10 +37,12 @@ export class CreateDiscountHandler
       maxDiscountAmount,
       usageLimit,
       perUserLimit,
+      startDate,
+      endDate,
       true,
       new Date(),
       new Date(),
-    );
+    ); 
 
     const existed = await this.discountRepository.findOne({ code });
     if (existed) {

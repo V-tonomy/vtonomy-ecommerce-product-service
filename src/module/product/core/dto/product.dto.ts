@@ -6,9 +6,7 @@ import {
   IsOptional,
   IsPositive,
   IsString,
-  Max,
-  Min,
-  ValidateNested,
+  ValidateNested
 } from 'class-validator';
 
 import { Type } from 'class-transformer';
@@ -108,33 +106,3 @@ export class UpdateProductDTO {
   @IsOptional()
   updatedAt?: Date;
 }
-
-// export class SearchProductDTO {
-//   @IsString()
-//   @IsOptional()
-//   keyword?: string;
-
-//   @IsOptional()
-//   categoryId?: string;
-
-//   @IsNumber()
-//   @IsOptional()
-//   @Min(0)
-//   minPrice?: number;
-
-//   @IsNumber()
-//   @IsOptional()
-//   @Min(0)
-//   maxPrice?: number;
-
-//   @IsNumber()
-//   @IsOptional()
-//   @Min(1)
-//   page?: number;
-
-//   @IsNumber()
-//   @IsOptional()
-//   @Min(1)
-//   @Max(100)
-//   limit?: number;
-// }

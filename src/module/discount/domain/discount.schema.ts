@@ -20,6 +20,12 @@ export class DiscountMongo {
   @Prop({ required: true })
   perUserLimit: number;
 
+  @Prop()
+  startDate: Date;
+
+  @Prop()
+  endDate: Date;
+
   @Prop({ required: true })
   isActive: boolean;
 

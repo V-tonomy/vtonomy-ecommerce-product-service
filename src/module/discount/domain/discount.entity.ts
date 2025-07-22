@@ -8,6 +8,8 @@ export class Discount implements IDiscount {
     public maxDiscountAmount: number,
     public usageLimit: number,
     public perUserLimit: number,
+    public startDate: Date,
+    public endDate: Date,
     public isActive: boolean,
     public createdAt: Date,
     public updatedAt: Date,

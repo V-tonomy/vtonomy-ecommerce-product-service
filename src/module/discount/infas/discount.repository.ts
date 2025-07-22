@@ -25,6 +25,8 @@ export class DiscountRepository extends MongoRepository<
       doc.maxDiscountAmount,
       doc.usageLimit,
       doc.perUserLimit,
+      doc.startDate,
+      doc.endDate,
       doc.isActive,
       doc.createdAt,
       doc.updatedAt,
