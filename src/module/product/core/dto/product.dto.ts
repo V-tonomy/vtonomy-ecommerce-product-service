@@ -39,21 +39,30 @@ export class CreateProductDTO {
     description: 'Category of product',
   })
   @IsString()
+  @IsOptional()
   categoryId: string;
 
   @ApiProperty({
-    example: [
-      {
-        id: 'image-id-1',
-        url: 'image-url',
-        alt: 'alt',
-      } as IImage,
-    ],
-    description: 'Images of product',
+    example: 'brand-id-123',
+    description: 'Brand of product',
   })
-  @IsArray()
+  @IsString()
   @IsOptional()
-  images: any[];
+  brandId: string;
+
+  // @ApiProperty({
+  //   example: [
+  //     {
+  //       id: 'image-id-1',
+  //       url: 'image-url',
+  //       alt: 'alt',
+  //     } as IImage,
+  //   ],
+  //   description: 'Images of product',
+  // })
+  // @IsArray()
+  // @IsOptional()
+  // images: any[];
 }
 
 export class UpdateProductDTO {
@@ -77,26 +86,38 @@ export class UpdateProductDTO {
   price?: number;
 
   @ApiProperty({
+    example: 'brand-id-123',
+    description: 'Brand of product',
+  })
+  @IsOptional()
+  brandId?: string;
+
+  @ApiProperty({
     example: 'category-id-123',
     description: 'Category of product',
   })
   @IsOptional()
   categoryId?: string;
 
-  @ApiProperty({
-    example: [
-      {
-        id: 'image-id-1',
-        url: 'image-url',
-        alt: 'alt',
-      } as IImage,
-    ],
-    description: 'Images of product',
-  })
-  @IsArray()
-  @ValidateNested({ each: true })
+  @ApiProperty({ example: 'Product status', description: 'Product status' })
+  @IsString()
   @IsOptional()
-  images?: IImage[];
+  status?: string;
+
+  // @ApiProperty({
+  //   example: [
+  //     {
+  //       id: 'image-id-1',
+  //       url: 'image-url',
+  //       alt: 'alt',
+  //     } as IImage,
+  //   ],
+  //   description: 'Images of product',
+  // })
+  // @IsArray()
+  // @ValidateNested({ each: true })
+  // @IsOptional()
+  // images?: IImage[];
 
   @ApiProperty({
     example: new Date(),

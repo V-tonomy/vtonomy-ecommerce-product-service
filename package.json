@@ -35,6 +35,7 @@
     "multer": "^2.0.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
+    "slugify": "^1.6.6",
     "swagger-ui-express": "^5.0.1",
     "vtonomy": "github:V-tonomy/vtonomy-ecommerce-common"
   },

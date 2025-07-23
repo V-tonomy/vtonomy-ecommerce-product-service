@@ -8,7 +8,7 @@ export class CreateImageCommand implements ICommand {
     this.props = props;
   }
 
-  static create(data: CreateImageDTO) {
-    return new CreateImageCommand(data);
+  static create(props: CreateImageDTO) {
+    return new CreateImageCommand(props);
   }
 }

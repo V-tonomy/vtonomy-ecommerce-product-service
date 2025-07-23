@@ -21,10 +21,12 @@ export class ProductRepository extends MongoRepository<
     return new Product(
       doc._id,
       doc.name,
+      doc.slug,
       doc.description,
       doc.price,
       doc.categoryId,
-      doc.images,
+      doc.brandId,
+      doc.status,
       doc.createdAt,
       doc.updatedAt,
     );
@@ -34,10 +36,12 @@ export class ProductRepository extends MongoRepository<
     return new this.model({
       _id: domain.id,
       name: domain.name,
+      slug: domain.slug,
       description: domain.description,
       price: domain.price,
       categoryId: domain.categoryId,
-      images: domain.images,
+      brandId: domain.brandId,
+      status: domain.status,
       createdAt: domain.createdAt,
       updatedAt: domain.updatedAt,
     });

@@ -1,22 +1,29 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsArray, IsNotEmpty, IsString, ValidateNested } from 'class-validator';
+import { IsArray, IsNumber, IsString, ValidateNested } from 'class-validator';
 
-export class ImageDTO {
+export class ImageFileDTO {
   @ApiProperty({ example: 'https://example.com/image.jpg' })
   @IsString()
   url: string;
+
+  @ApiProperty({ example: 'Side view of product' })
+  @IsString()
+  alt: string;
+
+  @ApiProperty({ example: 1 })
+  @IsNumber()
+  sortOrder: number;
 }
 
 export class CreateImageDTO {
-  @ApiProperty({
-    description: 'List of uploaded image URLs',
-    type: [ImageDTO],
-    example: [{ url: 'https://example.com/image.jpg' }],
-  })
+  @ApiProperty({ example: 'prod_67890' })
+  @IsString()
+  productId: string;
+
+  @ApiProperty({ type: [ImageFileDTO] })
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => ImageDTO)
-  @IsNotEmpty()
-  files: ImageDTO[];
+  @Type(() => ImageFileDTO)
+  files: ImageFileDTO[];
 }

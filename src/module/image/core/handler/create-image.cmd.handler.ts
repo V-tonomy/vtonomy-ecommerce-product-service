@@ -15,16 +15,25 @@ export class CreateImageHandler implements ICommandHandler<CreateImageCommand> {
   ) {}
 
   async execute(command: CreateImageCommand): Promise<any> {
-    const { files } = command.props;
+    const { files, productId } = command.props;
 
     const images = files.map(
-      (file) => new Image(randomUUID(), file.url, new Date(), new Date()),
+      (file) =>
+        new Image({
+          id: randomUUID(),
+          productId,
+          url: file.url,
+          alt: file.url,
+          sortOrder: file.sortOrder,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
     );
 
     await this.imageRepository.insertMany(images);
 
     this.searchClient.send(Image_Created, images).subscribe();
 
-    return images;
+    return images.map((item) => item.id);
   }
 }

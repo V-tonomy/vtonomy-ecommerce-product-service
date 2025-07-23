@@ -9,25 +9,34 @@ export class ProductMongo {
   @Prop({ required: true })
   name: string;
 
+  @Prop({ required: true })
+  slug: string;
+
   @Prop()
   description: string;
 
   @Prop({ required: true })
   price: number;
 
-  @Prop({ required: true })
+  @Prop()
   categoryId: string;
 
-  @Prop({
-    type: [
-      {
-        url: { type: String, required: true },
-        alt: { type: String },
-      },
-    ],
-    required: true,
-  })
-  images: IImage[];
+  @Prop()
+  brandId: string;
+
+  // @Prop({
+  //   type: [
+  //     {
+  //       url: { type: String, required: true },
+  //       alt: { type: String },
+  //     },
+  //   ],
+  //   required: true,
+  // })
+  // images: IImage[];
+
+  @Prop({ required: true })
+  status: string;
 
   @Prop()
   createdAt: Date;

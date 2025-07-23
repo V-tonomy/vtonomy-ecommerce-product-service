@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Post,
   UploadedFiles,
@@ -10,6 +11,7 @@ import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { diskStorage } from 'multer';
 import { ResponseDTO } from 'vtonomy';
 import { CreateImageCommand } from '../core/command';
+import { CreateImageDTO, ImageFileDTO } from '../core/dto/image.dto';
 
 @ApiTags('Image')
 @Controller('image')
@@ -45,14 +47,25 @@ export class ImageController {
       }),
     }),
   )
-  async upload(@UploadedFiles() files: Express.Multer.File[]) {
-    const dto = {
-      files: files.map((file) => ({
+  async upload(
+    @UploadedFiles() files: Express.Multer.File[],
+    @Body('productId') productId: string,
+  ) {
+    const imagesDTO = files.map(
+      (file, index): ImageFileDTO => ({
         url: `/uploads/${file.filename}`,
-      })),
-    };
-    await this.commandBus.execute(CreateImageCommand.create(dto));
+        sortOrder: index + 1,
+        alt: file.filename,
+      }),
+    );
 
-    return new ResponseDTO(dto);
+    const dto: CreateImageDTO = {
+      productId,
+      files: imagesDTO,
+    };
+
+    const res = await this.commandBus.execute(CreateImageCommand.create(dto));
+
+    return new ResponseDTO(res);
   }
 }

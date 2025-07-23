@@ -4,10 +4,12 @@ export class Product {
   constructor(
     public readonly id: string,
     public name: string,
+    public slug: string,
     public description: string,
     public price: number,
     public categoryId: string,
-    public images: IImage[],
+    public brandId: string,
+    public status: string,
     public createdAt: Date,
     public updatedAt: Date,
   ) {}

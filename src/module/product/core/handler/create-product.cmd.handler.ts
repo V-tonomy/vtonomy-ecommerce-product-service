@@ -6,6 +6,7 @@ import { CLIENTS, Product_Created } from 'vtonomy';
 import { IProductRepository } from '../../domain';
 import { Product } from '../../domain/product.entity';
 import { CreateProductCommand } from '../command';
+import slugify from 'slugify';
 
 @CommandHandler(CreateProductCommand)
 export class CreateProductHandler
@@ -18,25 +19,23 @@ export class CreateProductHandler
   ) {}
 
   async execute(command: CreateProductCommand): Promise<string> {
-    const { name, description, categoryId, images, price } = command.props;
+    const { name, description, categoryId, price, brandId } = command.props;
 
+    const slug = slugify(name, { lower: true, strict: true });
     const id = randomUUID();
 
     const product = new Product(
       id,
       name,
+      `${slug}-${id}`,
       description,
       price,
       categoryId,
-      images,
+      brandId,
+      'ACTIVE',
       new Date(),
       new Date(),
     );
-
-    const existed = await this.productRepository.findOne({ name });
-    if (existed) {
-      throw new ConflictException(`Product with name '${name}' already exists`);
-    }
 
     await this.productRepository.insert(product);
     this.client.send(Product_Created, product).subscribe();

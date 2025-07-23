@@ -18,13 +18,24 @@ export class ImageRepository extends MongoRepository<
   }
 
   toDomain(doc: ImageMongoDocument): Image {
-    return new Image(doc._id, doc.url, doc.createdAt, doc.updatedAt);
+    return new Image({
+      id: doc._id,
+      url: doc.url,
+      alt: doc.alt,
+      productId: doc.productId,
+      sortOrder: doc.sortOrder,
+      createdAt: doc.createdAt,
+      updatedAt: doc.updatedAt,
+    });
   }
 
   fromDomain(domain: Image): ImageMongoDocument {
     return new this.model({
       _id: domain.id,
       url: domain.url,
+      alt: domain.alt,
+      productId: domain.productId,
+      sortOrder: domain.sortOrder,
       createdAt: domain.createdAt,
       updatedAt: domain.updatedAt,
     });

@@ -5,8 +5,23 @@ export class ImageMongo {
   @Prop({ required: true, type: String })
   _id: string;
 
+  @Prop({ required: true, type: String })
+  productId: string;
+
+  // @Prop({ required: true, type: String })
+  // skuId: string;
+
+  // @Prop({ required: true, type: String })
+  // type: string;
+
   @Prop({ required: true })
   url: string;
+
+  @Prop()
+  alt: string;
+
+  @Prop({ required: true })
+  sortOrder: number;
 
   @Prop()
   createdAt: Date;

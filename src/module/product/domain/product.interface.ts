@@ -1,13 +1,14 @@
-import { IImage } from 'src/domain';
 import { IRepository } from 'vtonomy';
 
 export interface IProduct {
   id: string;
   name: string;
+  slug: string;
   description: string;
   price: number;
   categoryId: string;
-  images: IImage[];
+  brandId: string;
+  status: string;
   createdAt: Date;
   updatedAt: Date;
 }
